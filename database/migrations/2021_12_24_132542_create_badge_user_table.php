@@ -17,8 +17,8 @@ class CreateBadgeUserTable extends Migration
     {
         Schema::create('badge_user', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Badge::class);
-            $table->foreignIdFor(User::class);
+            $table->foreignId('badge_id')->constrained();
+            $table->foreignId('user_id')->constrained();
             $table->timestamps();
         });
     }
