@@ -56,6 +56,14 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Lesson::class);
     }
+    
+    /**
+     * The achievements completed by the user
+     */
+    public function achievements()
+    {
+        return $this->belongsToMany(Achievement::class);
+    }
 
     /**
      * The lessons that a user has watched.
