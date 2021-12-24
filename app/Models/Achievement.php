@@ -9,17 +9,13 @@ class Achievement extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'name'
-    ];
+    const MODELS_ARRAY = ['Comment', 'Lesson'];
 
-    /**
-     * Get milestones related to achievement completion
-     */
-    public function milestones()
-    {
-        return $this->hasMany(Milestone::class);
-    }
+    protected $fillable = [
+        'name',
+        'model',
+        'milestone',
+    ];
 
     /**
      * Get achievement completion for users

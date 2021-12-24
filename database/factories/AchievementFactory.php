@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Achievement;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AchievementFactory extends Factory
@@ -15,6 +16,8 @@ class AchievementFactory extends Factory
     {
         return [
             'name' => $this->faker->words(3),
+            'model' => $this->faker->randomElement(Achievement::MODELS_ARRAY),
+            'milestone' => $this->faker->randomNumber(1, 100),
         ];
     }
 }
