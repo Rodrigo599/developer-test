@@ -20,8 +20,8 @@ class Achievement extends Model
     /**
      * Get achievement completion for users
      */
-    public function achievements()
+    public function users()
     {
-        return $this->hasMany(Achievement::class);
+        return $this->hasMany(User::class);
     }
 }
