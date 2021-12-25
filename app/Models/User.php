@@ -42,6 +42,32 @@ class User extends Authenticatable
     ];
 
     /**
+     * The badges that belong to the user.
+     */
+    public function badges()
+    {
+        return $this->belongsToMany(Badge::class);
+    }
+
+    /**
+     * The current badge of an user.
+     */
+    public function currentBadge()
+    {
+        return $this->badges->last();
+    }
+
+    /**
+     * The next badge of an user.
+     */
+    public function nextBadge()
+    {
+        return Badge::whereDoesntHave('users', function($query){
+            $query->where('user_id', $this->id);
+        })->orderBy('achievement_amount')->first();
+    }
+
+    /**
      * The comments that belong to the user.
      */
     public function comments()
@@ -62,7 +88,17 @@ class User extends Authenticatable
      */
     public function achievements()
     {
-        return $this->belongsToMany(Achievement::class);
+        return $this->belongsToMany(Achievement::class)->withTimestamps();
+    }
+
+    /**
+     * The achievements available to the user
+     */
+    public function availableAchievements()
+    {
+        return Achievement::whereDoesntHave('users', function($query){
+            $query->where('user_id', $this->id);
+        })->get();
     }
 
     /**

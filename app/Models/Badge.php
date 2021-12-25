@@ -19,6 +19,6 @@ class Badge extends Model
      */
     public function users()
     {
-        return $this->hasMany(User::class);
+        return $this->BelongsToMany(User::class);
     }
 }
