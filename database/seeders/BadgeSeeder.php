@@ -15,7 +15,7 @@ class BadgeSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('badges')->insert(
+        DB::table('badges')->insert([
             [
                 'name' => 'Beginner',
                 'achievement_amount' => 0
@@ -32,6 +32,6 @@ class BadgeSeeder extends Seeder
                 'name' => 'Master',
                 'achievement_amount' => 10
             ]
-        );
+        ]);
     }
 }
