@@ -15,7 +15,7 @@ class AchievementFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->words(3),
+            'name' => $this->faker->word(),
             'model' => $this->faker->randomElement(Achievement::MODELS_ARRAY),
             'milestone' => $this->faker->randomNumber(1, 100),
         ];

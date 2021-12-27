@@ -14,7 +14,7 @@ class BadgeFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->words(1),
+            'name' => $this->faker->word(),
             'achievement_amount' => $this->faker->randomNumber(1, 100)
         ];
     }
