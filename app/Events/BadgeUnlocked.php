@@ -21,9 +21,9 @@ class BadgeUnlocked
      *
      * @return void
      */
-    public function __construct(Badge $badge, User $user)
+    public function __construct(String $badge_name, User $user)
     {
-        $this->badge = $badge;
+        $this->badge_name = $badge_name;
         $this->user = $user;
     }
 }

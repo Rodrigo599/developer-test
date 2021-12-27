@@ -60,7 +60,7 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.current_badge.name', 'Beginner');
+        $response->assertJsonPath('data.current_badge', 'Beginner');
         $response->assertSuccessful();
     }
 
@@ -76,8 +76,7 @@ class AchievementsControllerTest extends TestCase
         $response = $this->get("/users/{$user->id}/achievements");
 
         $response->assertJsonPath('data.remaing_to_unlock_next_badge', 15);
-        $response->assertJsonPath('data.next_badge.name', 'Next Badge');
-        $response->assertJsonPath('data.next_badge.achievement_amount', 25);
+        $response->assertJsonPath('data.next_badge', 'Next Badge');
         $response->assertSuccessful();
     }
 
@@ -98,30 +97,42 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.current_badge.name', 'Current Badge');
-        $response->assertJsonPath('data.current_badge.achievement_amount', 10);
+        $response->assertJsonPath('data.current_badge', 'Current Badge');
         $response->assertSuccessful();
     }
 
-    public function test_show_all_available_achievements()
+    public function test_show_correctly_next_available_achievements()
     {
-        $user = User::factory()->create();
+        $user = User::factory()->hasAchievements(1, [
+            'name' => 'Previous Achievement',
+            'milestone' => 1,
+            'model' => 'Comment'
+        ])->create();
+        
+        Achievement::factory()->create([
+            'name' => 'Next Achievement',
+            'milestone' => 2,
+            'model' => 'Comment'
+        ]);
 
-        Achievement::factory()->count(5)->create();
-
-        $achievement = Achievement::factory()->create([
-            'name' => 'Another Achievement',
-            'milestone' => 200
+        Achievement::factory()->create([
+            'name' => 'Far Achievement',
+            'milestone' => 4,
+            'model' => 'Comment'
+        ]);
+        
+        Achievement::factory()->create([
+            'name' => 'Next Achievement for Lesson',
+            'milestone' => 1,
+            'model' => 'Lesson'
         ]);
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $data = ((array)json_decode($response->getContent()))['data'];
-
-        //Assert has 6 arrays, with one being a certain value
-        $this->assertEquals(6, sizeof($data->next_available_achievements));
-        $this->assertTrue(in_array($achievement->name, Arr::pluck($data->next_available_achievements, 'name')));
-        $this->assertTrue(in_array($achievement->milestone, Arr::pluck($data->next_available_achievements, 'milestone')));
+        $response->assertJsonPath('data.next_available_achievements', [
+            'Next Achievement for Lesson',
+            'Next Achievement',
+        ]);
     }
 
     public function test_show_unlocked_achievements() 
@@ -141,7 +152,6 @@ class AchievementsControllerTest extends TestCase
 
         //Assert has 6 arrays, with one being a certain achievement
         $this->assertEquals(6, sizeof($data->unlocked_achievements));
-        $this->assertTrue(in_array($achievement->name, Arr::pluck($data->unlocked_achievements, 'name')));
-        $this->assertTrue(in_array($achievement->milestone, Arr::pluck($data->unlocked_achievements, 'milestone')));
+        $this->assertTrue(in_array($achievement->name, $data->unlocked_achievements));
     }
 }

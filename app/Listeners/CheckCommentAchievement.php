@@ -47,7 +47,7 @@ class CheckCommentAchievement
             $achievement->users()->attach($event->comment->user_id);
 
             //Fire event
-            AchievementUnlocked::dispatch($achievement, User::findOrFail($event->comment->user_id));
+            AchievementUnlocked::dispatch($achievement->name, User::findOrFail($event->comment->user_id));
         });
     }
 }

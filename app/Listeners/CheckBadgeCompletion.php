@@ -40,7 +40,7 @@ class CheckBadgeCompletion
             $badge->users()->attach($event->user->id);
 
             //Fire event
-            BadgeUnlocked::dispatch($badge, $event->user);
+            BadgeUnlocked::dispatch($badge->name, $event->user);
         });
 
 

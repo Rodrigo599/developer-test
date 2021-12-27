@@ -98,7 +98,7 @@ class User extends Authenticatable
     {
         return Achievement::whereDoesntHave('users', function($query){
             $query->where('user_id', $this->id);
-        })->get();
+        })->orderBy('milestone')->get()->unique('model');
     }
 
     /**

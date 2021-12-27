@@ -43,7 +43,7 @@ class CheckLessonAchievement
             $achievement->users()->attach($event->user->id);
 
             //Fire event
-            AchievementUnlocked::dispatch($achievement, $event->user);
+            AchievementUnlocked::dispatch($achievement->name, $event->user);
         });
     }
 }

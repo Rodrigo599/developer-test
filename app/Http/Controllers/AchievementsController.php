@@ -11,7 +11,7 @@ use App\Models\Badge;
 
 class AchievementsController extends Controller
 {
-    public function index(User $user)
+    public function index(User $user): UserAchievement
     {
         return new UserAchievement($user->load([
             'achievements',
