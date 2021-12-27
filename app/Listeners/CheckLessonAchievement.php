@@ -28,7 +28,8 @@ class CheckLessonAchievement
      */
     public function handle(LessonWatched $event)
     {
-        $newAmount = $event->user->lessons->count();
+        //Get amount of watched lessons
+        $newAmount = $event->user->watched->count();
         
         //Check if there are achievements with new amount
         $achievements = Achievement::where([

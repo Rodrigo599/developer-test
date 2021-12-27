@@ -17,4 +17,12 @@ class Lesson extends Model
     protected $fillable = [
         'title'
     ];
+
+    /**
+     * Get the users that watched lesson.
+     */
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
 }

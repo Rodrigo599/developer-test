@@ -54,7 +54,7 @@ class User extends Authenticatable
      */
     public function currentBadge()
     {
-        return $this->badges->last();
+        return $this->badges->sortByDesc('achievement_amount')->first();
     }
 
     /**

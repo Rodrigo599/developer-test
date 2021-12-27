@@ -14,6 +14,10 @@ class Badge extends Model
         'achievement_amount'
     ];
 
+    protected $casts = [
+        'achievement_amount' => 'integer',
+    ];
+
     /**
      * Get badge completion for users
      */
