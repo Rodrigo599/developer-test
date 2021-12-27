@@ -10,6 +10,8 @@ use App\Listeners\CheckBadgeCompletion;
 use App\Listeners\CheckCommentAchievement;
 use App\Listeners\CheckLessonAchievement;
 use App\Models\Achievement;
+use App\Models\User;
+use App\Observers\UserObserver;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
@@ -42,6 +44,6 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        User::observe(UserObserver::class);
     }
 }
