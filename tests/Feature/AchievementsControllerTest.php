@@ -37,13 +37,11 @@ class AchievementsControllerTest extends TestCase
         $response = $this->get("/users/{$user->id}/achievements");
 
         $response->assertJsonStructure([
-            'data' => [
-                'unlocked_achievements',
-                'next_available_achievements',
-                'current_badge',
-                'next_badge',
-                'remaing_to_unlock_next_badge'
-            ]
+            'unlocked_achievements',
+            'next_available_achievements',
+            'current_badge',
+            'next_badge',
+            'remaing_to_unlock_next_badge'
         ]);
 
         $response->assertSuccessful();
@@ -60,7 +58,7 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.current_badge', 'Beginner');
+        $response->assertJsonPath('current_badge', 'Beginner');
         $response->assertSuccessful();
     }
 
@@ -75,8 +73,8 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.remaing_to_unlock_next_badge', 15);
-        $response->assertJsonPath('data.next_badge', 'Next Badge');
+        $response->assertJsonPath('remaing_to_unlock_next_badge', 15);
+        $response->assertJsonPath('next_badge', 'Next Badge');
         $response->assertSuccessful();
     }
 
@@ -97,7 +95,7 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.current_badge', 'Current Badge');
+        $response->assertJsonPath('current_badge', 'Current Badge');
         $response->assertSuccessful();
     }
 
@@ -129,7 +127,7 @@ class AchievementsControllerTest extends TestCase
         
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $response->assertJsonPath('data.next_available_achievements', [
+        $response->assertJsonPath('next_available_achievements', [
             'Next Achievement for Lesson',
             'Next Achievement',
         ]);
@@ -148,10 +146,10 @@ class AchievementsControllerTest extends TestCase
 
         $response = $this->get("/users/{$user->id}/achievements");
 
-        $data = ((array)json_decode($response->getContent()))['data'];
+        $data = ((array)json_decode($response->getContent()));
 
         //Assert has 6 arrays, with one being a certain achievement
-        $this->assertEquals(6, sizeof($data->unlocked_achievements));
-        $this->assertTrue(in_array($achievement->name, $data->unlocked_achievements));
+        $this->assertEquals(6, sizeof($data['unlocked_achievements']));
+        $this->assertTrue(in_array($achievement->name, $data['unlocked_achievements']));
     }
 }
